@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    // Додаємо стиль для напівпрозорості та панелі керування
+    const style = document.createElement('style');
+    style.textContent = `
+        .faded { opacity: 0.25 !important; transition: opacity .25s ease; }
+        #controls { position: fixed; left: 10px; top: 10px; background: rgba(255,255,255,0.9); padding: 8px 10px; border-radius: 6px; font-family: sans-serif; z-index: 9999; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        #controls label { display: block; font-size: 13px; margin: 2px 0; cursor: pointer; }
+        #controls input { margin-right: 6px; }
+    `;
+    document.head.appendChild(style);
+
+    // Панель керування з чекбоксами
+    const controls = document.createElement('div');
+    controls.id = 'controls';
+    const title = document.createElement('div');
+    title.style.fontWeight = '600';
+    title.style.marginBottom = '6px';
+    title.textContent = 'Показати:';
+    controls.appendChild(title);
+
+    const items = [
+        { id: 'buildings', label: 'Будівлі', selector: '.building' },
+        { id: 'schools',   label: 'Школи',   selector: '.school' },
+        { id: 'hospitals', label: 'Лікарні', selector: '.hospital' },
+        { id: 'pipes',     label: 'Труби',   selector: '.pipe' },
+    ];
+
+    items.forEach(it => {
+        const label = document.createElement('label');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = it.id;
+        cb.checked = true;
+
+        cb.addEventListener('change', () => {
+            document.querySelectorAll(it.selector).forEach(el => {
+                if (cb.checked) el.classList.remove('faded'); else el.classList.add('faded');
+            });
+        });
+
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(it.label));
+        controls.appendChild(label);
+    });
+
+    document.body.appendChild(controls);
+});
+</script>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Візуалізація об'єктів</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg viewBox="0 0 800 600">
+<!-- Будівлі -->
+    <rect x="100" y="100" width="100" height="150" class="building" />
+    <text x="100" y="95">Будівля A</text>
+
+    <rect x="300" y="100" width="120" height="180" class="building" />
+    <text x="300" y="95">Будівля B</text>
+
+    <rect x="480" y="100" width="140" height="160" class="building school" />
+    <text x="480" y="95">Школа C</text>
+
+    <rect x="640" y="100" width="110" height="140" class="building hospital" />
+    <text x="640" y="95">Лікарня D</text>
+
+    <rect x="100" y="300" width="130" height="120" class="building school" />
+    <text x="100" y="295">Школа E</text>
+
+    <rect x="300" y="320" width="150" height="130" class="building hospital" />
+    <text x="300" y="315">Лікарня F</text>
+
+    <!-- Додані будівлі -->
+    <rect x="520" y="320" width="120" height="110" class="building" />
+    <text x="520" y="315">Будівля G</text>
+
+    <rect x="660" y="320" width="110" height="120" class="building school" />
+    <text x="660" y="315">Школа H</text>
+
+    <rect x="480" y="460" width="140" height="100" class="building" />
+    <text x="480" y="455">Офіс I</text>
+
+    <rect x="100" y="460" width="130" height="110" class="building hospital" />
+    <text x="100" y="455">Лікарня J</text>
+
+        <!-- Труби від ТЕЦ: ліворуч і праворуч (горизонтальні) -->
+        <!-- Розбиті на багато секторів труби (без підписів) -->
+
+        <!-- Горизонтальна лінія (біля верхніх будівель) - сектора торкаються -->
+        <rect x="150" y="248" width="30" height="16" class="pipe" />
+        <rect x="180" y="248" width="30" height="16" class="pipe" />
+        <rect x="210" y="248" width="30" height="16" class="pipe" />
+        <rect x="240" y="248" width="30" height="16" class="pipe" />
+        <rect x="270" y="248" width="30" height="16" class="pipe" />
+        <rect x="300" y="248" width="30" height="16" class="pipe" />
+        <rect x="330" y="248" width="30" height="16" class="pipe" />
+        <rect x="360" y="248" width="30" height="16" class="pipe" />
+        <rect x="390" y="248" width="30" height="16" class="pipe" />
+        <rect x="420" y="248" width="30" height="16" class="pipe" />
+        <rect x="450" y="248" width="30" height="16" class="pipe" />
+        <rect x="480" y="248" width="30" height="16" class="pipe" />
+
+        <!-- Горизонтальна лінія (нижче, велика магістраль) - сектора торкаються -->
+        <rect x="120" y="398" width="28" height="16" class="pipe" />
+        <rect x="148" y="398" width="28" height="16" class="pipe" />
+        <rect x="176" y="398" width="28" height="16" class="pipe" />
+        <rect x="204" y="398" width="28" height="16" class="pipe" />
+        <rect x="232" y="398" width="28" height="16" class="pipe" />
+        <rect x="260" y="398" width="28" height="16" class="pipe" />
+        <rect x="288" y="398" width="28" height="16" class="pipe" />
+        <rect x="316" y="398" width="28" height="16" class="pipe" />
+        <rect x="344" y="398" width="28" height="16" class="pipe" />
+        <rect x="372" y="398" width="28" height="16" class="pipe" />
+        <rect x="400" y="398" width="28" height="16" class="pipe" />
+        <rect x="428" y="398" width="28" height="16" class="pipe" />
+        <rect x="456" y="398" width="28" height="16" class="pipe" /> 
+        <rect x="484" y="398" width="28" height="16" class="pipe" />
+        <rect x="512" y="398" width="28" height="16" class="pipe" />
+        <rect x="540" y="398" width="28" height="16" class="pipe" />
+
+
+        <!-- Середня горизонтальна гілка (біля ТЕЦ) - сектора торкаються -->
+        <rect x="320" y="312" width="26" height="14" class="pipe" />
+        <rect x="346" y="312" width="26" height="14" class="pipe" />
+        <rect x="372" y="312" width="26" height="14" class="pipe" />
+        <rect x="398" y="312" width="26" height="14" class="pipe" />
+        <rect x="424" y="312" width="26" height="14" class="pipe" />
+        <rect x="450" y="312" width="26" height="14" class="pipe" />
+        <rect x="476" y="312" width="26" height="14" class="pipe" />
+
+        <!-- Вертикальна лінія праворуч від ТЕЦ (розбита на сектори) - сектора торкаються -->
+        <rect x="444" y="150" width="16" height="30" class="pipe" />
+        <rect x="444" y="180" width="16" height="30" class="pipe" />
+        <rect x="444" y="210" width="16" height="30" class="pipe" />
+        <rect x="444" y="240" width="16" height="30" class="pipe" />
+        <rect x="444" y="270" width="16" height="30" class="pipe" />
+        <rect x="444" y="300" width="16" height="30" class="pipe" />
+        <rect x="444" y="330" width="16" height="30" class="pipe" />
+        <rect x="444" y="360" width="16" height="30" class="pipe" />
+        <rect x="444" y="390" width="16" height="30" class="pipe" />
+        <rect x="444" y="420" width="16" height="30" class="pipe" />
+        <rect x="444" y="450" width="16" height="30" class="pipe" />
+        <rect x="444" y="480" width="16" height="30" class="pipe" />
+
+
+        <!-- Вертикальна лінія лівіше (довга магістраль) - сектора торкаються -->
+        <rect x="200" y="210" width="16" height="30" class="pipe" />
+        <rect x="200" y="240" width="16" height="30" class="pipe" />
+        <rect x="200" y="270" width="16" height="30" class="pipe" />
+        <rect x="200" y="300" width="16" height="30" class="pipe" />
+        <rect x="200" y="330" width="16" height="30" class="pipe" />
+
+        <!-- Кілька коротких відгалужень (сектори) - сектора торкаються -->
+       
+        <rect x="540" y="360" width="20" height="14" class="pipe" />
+        <rect x="560" y="360" width="20" height="14" class="pipe" />
+
+        <rect x="620" y="240" width="24" height="14" class="pipe" />
+        <rect x="644" y="240" width="24" height="14" class="pipe" />
+
+        <!-- Кілька дрібних вертикальних секторів поруч із будівлями - сектора торкаються -->
+        <rect x="520" y="320" width="14" height="28" class="pipe" />
+        <rect x="520" y="348" width="14" height="28" class="pipe" />
+
+        <rect x="660" y="320" width="14" height="28" class="pipe" />
+        <rect x="660" y="348" width="14" height="28" class="pipe" />
+    <!-- ТЕЦ (квадрат) -->
+    <rect x="420" y="230" width="60" height="60" class="chp" />
+    <text x="450" y="260" text-anchor="middle" alignment-baseline="middle" class="chp-label">ТЕЦ</text>
+
+</svg>
+</body>
+</html>
